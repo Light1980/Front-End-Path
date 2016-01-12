@@ -1,0 +1,223 @@
+/********
+GLOBAL
+*********/
+body {
+    background-color: #eee;
+    color: darkcyan;
+    margin: 0;
+    padding: 0;
+
+    font-family: "Microsoft Yahei", sans-serif;
+}
+
+section {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    color: cornflowerblue;
+}
+
+a {
+    text-decoration: none;
+    color: cadetblue;
+    font-weight: bold;
+
+    -webkit-transition: all 0.25s linear;
+    -moz-transition: all 0.25s linear;
+    -ms-transition: all 0.25s linear;
+    -o-transition: all 0.25s linear;
+    transition: all 0.25s linear;
+}
+
+a:hover {
+    color: red;
+}
+
+.wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+}
+.grouping:before,.grouping:after {
+    content:"";
+    display: table;
+}
+
+.grouping:after {
+    clear:both;
+}
+/*****************
+MODULAR STYLE
+******************/
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.hidden,
+.hide {
+    display: none;
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.block {
+    display: block;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+/*********************
+INTRODUCTORY SECTION
+*********************/
+.intro-content {
+    max-width: 400px;
+    margin-right: 60px;
+}
+
+.self-information {
+    max-width: 300px;
+    margin-top: 50px;
+}
+
+.about-me {
+    display: block;
+    border: 2px solid;
+    padding: 10px 0;
+    border-radius: 10px;
+
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#57d0db+0,0e6cd1+100 */
+    background: #57d0db; /* Old browsers */
+    background: -moz-linear-gradient(top,  #57d0db 0%, #0e6cd1 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #57d0db 0%,#0e6cd1 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #57d0db 0%,#0e6cd1 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#57d0db', endColorstr='#0e6cd1',GradientType=0 ); /* IE6-9 */
+
+}
+
+.about-me:hover,
+.about-me:focus {
+    border: 2px solid #000;
+    color: #000;
+    background: none;
+}
+
+/***********
+3-COLUMNS
+***********/
+.portfolio-section {
+    background-color: cornsilk;
+}
+
+.portfolio-float {
+    float: left;
+    max-width: 300px;
+    margin-left: 20px;
+}
+
+/*.portfolio-float:first-child {
+    margin-left: 0;
+}*/
+
+/***************
+BUTTON
+****************/
+.button {
+    border: 2px solid #333;
+    color: #333;
+    display: block;
+
+    padding: 5px 0;
+    text-align: center;
+}
+
+.button-narrow {
+    width: 35%;
+    border-radius: 0% 35%;
+}
+
+.button-medium {
+    width: 50%;
+}
+.button-alt {
+    border-color: #fff;
+    color: #fff;
+}
+
+.button:hover,
+.button:focus {
+    color: #fff;
+    background-color: coral;
+    border-radius: 0;
+
+    -webkit-transition: 0.4s all linear;
+    -moz-transition: 0.4s all linear;
+    -ms-transition: 0.4s all linear;
+    -o-transition: 0.4s all linear;
+    transition: 0.4s all linear;
+}
+/************
+PICTURE-ROTATE
+************/
+
+.portfolio-pic {
+    margin: 30px;
+    border: 10px solid #999999;
+    overflow: hidden;
+}
+
+.portfolio-pic img {
+    width: 100px;
+    height: 150px;
+
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    -ms-transition: all 0.25s;
+    -o-transition: all 0.25s;
+    transition: all 0.25s;
+}
+.portfolio-pic img:hover,
+.portfolio-pic img:focus{
+    -webkit-transform: rotate(-20deg) scale(1.45, 1.2);
+    -moz-transform: rotate(-20deg) scale(1.45, 1.2);
+    -ms-transform: rotate(-20deg) scale(1.45, 1.2);
+    -o-transform: rotate(-20deg) scale(1.45, 1.2);
+    transform: rotate(-20deg) scale(1.45, 1.2);
+}
+
+
+
+
+
+
+

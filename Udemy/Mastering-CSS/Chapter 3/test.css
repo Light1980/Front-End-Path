@@ -1,0 +1,55 @@
+body {
+    background-color: white;
+    color: darkcyan;
+    margin: 0;
+    padding: 0;
+
+    font-family: "Microsoft Yahei", sans-serif;
+}
+
+section {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    color: cornflowerblue;
+}
+
+a {
+    text-decoration: none;
+    color: cadetblue;
+}
+
+.grouping:before,.grouping:after {
+    content:"";
+    display: table;
+}
+
+.grouping:after {
+    clear:both;
+}
+
+.portfolio-section {
+    background-color: cornsilk;
+}
+
+.portfolio-wrapper {
+    width: 960px;
+    margin: 0 auto;
+}
+
+.portfolio-float {
+    float: left;
+    width: 300px;
+    margin-left: 20px;
+}
+
+.portfolio-float:first-child {
+    margin-left: 0;
+}
+
+.portfolio-pic {
+    width: 100px;
+    height: 150px;
+}
