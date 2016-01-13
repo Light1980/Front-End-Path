@@ -1,4 +1,4 @@
-> Written with [StackEdit](https://stackedit.io/).
+> Written with [StackEdit]（https://stackedit.io/）.
 
 ## Chapter 1 - Introduction
 
@@ -28,7 +28,7 @@ Javascript就是这样一门计算机语言。
 
 过去的计算机语言可并非现在这样。从机器码到汇编语言，从汇编语言到如今的JavaScript。复杂和细枝末节的东西被逐渐剔除，只留下了我们重视的部分。
 
-一门好的计算机语言，能让程序员们站在一个较高层次来编程，消除不感兴趣的末节，提供一些有用的构建模块（如`while`或`console.log`），并允许我们可以定义自己的模块(如`sum`和`range`函数)。
+一门好的计算机语言，能让程序员们站在一个较高层次来编程，消除不感兴趣的末节，提供一些有用的构建模块（如`while`或`console.log`），并允许我们可以定义自己的模块（如`sum`和`range`函数）。
 
 最后，Marijn谈到他为什么选用JavaScript来教授编程。是的，尽管JavaScript显得变化多端，让人讨厌（比如它的弱类型和异常多的浏览器兼容性问题）。但在另一方面，JavaScript却也因这些问题成就了它自己。
 
@@ -42,4 +42,243 @@ Javascript就是这样一门计算机语言。
 
 所以，欢迎来到编程世界。
 
-## Chapter 2
+## Chapter 2 - Values, Types, and Operators
+ 
+实际上，一切数据最基础的单位都是比特。比特由二进制表示，只能取0或1。
+
+###  Values
+
+想象一下，当一台计算机中储存了数以百亿计比特的数据时，我们应怎样做才能避免自己迷失在这片数据之海呢？
+
+在JavaScript中，数据被分成了一个个片段（chunks）来表示信息，这被称为值（values）。值本质上都是由比特构成，但不同的值可能会扮演不同的角色。每个值都有从属的类型，用以决定它本身的角色。
+
+在JavaScript中，值有六种基础类型：
+
+1. numbers
+2. strings
+3. Booleans
+4. objects
+5. functions
+6. undefined values
+
+想要使用这些值，只需简单地唤起它们的名字就行，既不需要什么施法材料，也不需要贡献祭品。但它们并非凭空而生，被召唤出来的值都会以比特形式储存在某一物理位置中。幸运的是，当你不再需要某些值时，它们便会被回收。由此空闲出来的比特将会为新值提供空间。
+
+### Numbers
+
+数值就是数值，没什么需要特别解释的。
+
+JavaScript用64比特的信息来表示一个数值。也就是说在理论上，JavaScript可以表示2^64（18e18）长度的整数（whole numbers/integers）。但事实并非如此，因为JavaScript的数值信息中还需要包含正负号（占用了1比特空间）以及小数点的位置信息，所以实际中它可以表示的整数范围会缩小到9e15，依然大得惊人。
+
+尽管JavaScript能保证9e15范围内整数计算的精确性，却依然无法确保小数（fractional numbers）计算的准确。受到64位比特储存空间的限制，许多小数的计算都将会取**近似值**（比如π）。这是我们应该注意到的地方。
+
+### Arithmetic
+
+Javascript的四则运算规则和通常我们熟知的规则无甚差别，如果感到不确定，添加一个**小括号**提高优先级即可。四则运算操作符（operators）分别是
+
+1. Addition: +
+2. Minus: -
+3. Multiplication: *
+4. Division: /
+
+需要注意的是**%**操作符代表的是取余数，它的优先级和乘除操作符一致。
+
+``` javascript
+// Modulo / Remainder
+212 % 100
+// 12
+```
+
+### Special Numbers
+
+JavaScript中有3种特别的数值，分别是
+
+1. 正无穷：`Infinity`
+2. 负无穷：`-Infinity`
+3. 非数值：`NaN`
+
+正无穷和负无穷很好理解。类似于Infinity - 1的简单四则操作依然会得到Infinity。但基于无穷的运算并没有强健的数学基础，便容易引致`NaN`的出现。
+
+``` javascript
+Infinity / Infinity
+// NaN
+Infinity - Infinity
+// NaN
+```
+
+除此之外，其他会造成结果不精确、无意义的运算也会得到`NaN`
+
+``` JavaScript
+0 / 0
+// NaN
+```
+
+### Strings
+
+字符串类型用来表示文本。
+
+``` javascript
+
+"Hello World!"
+'Hello Moto!'
+```
+
+成对出现的双引号或单引号都是用来说明这段数据属于字符串类型。
+
+有些信息难以被直接放入字符串数据中，比如*换行*或者*添加引号*。
+
+这时，我们需要使用转义符号`\`。`\`后紧跟着的字母会具有特别的含义。如`\n`表示换行，`\"`表示这就是一个双引号,`\\`表示这就是一个反斜杠。
+
+```  javascript
+"This is the first line\nAnd this is the second"
+/*
+This is the first line
+And this is the second
+*/
+"A newline character is written like \"\\n\"."
+// “A newline character is written like "\n"
+```
+
+此外，字符串不能进行四则运算，但可以使用`+`操作符来表示前后链接。
+
+``` javascript
+"He" + "llo"
+// "Hello"
+```
+
+### Unary Operators
+
+并非所有的操作符都是符号，有些也会以单词形式存在，例如`typeof`。这个操作符被用来展现数据的类型。
+
+``` javascript
+typeof 4.5
+// number
+typeof "x"
+// string
+```
+
+我们之前见过的操作符都会对两个值进行操作，而`typeof`不同，它只会使用一个值。因此，它被视为一元操作符（unary operator），而其他的则被称作二元操作符（binary operator）。
+
+减法操作符可以同时被用做一元操作符和二元操作符。
+
+``` javascript
+- （5 - 2）
+// -3
+```
+
+### Boolean Values
+
+布尔类型只包含两个值: `true`和`false`，用来表示对立关系。
+
+**比较操作（comparisons）**是生成布尔值的一种方法。
+
+``` javascript
+5 > 1
+// true
+2 > 3
+// false
+```
+
+字符串类型也同样可以进行比较，但需遵守以下两点规则：
+
+1. 字符串中的字母大小按字母表排序，越靠后的字母越大。
+2. 大写字母恒小于小写字母。
+
+``` javascript
+"a" > "b"
+// false
+"ac" > "ab"
+// true
+"a" > "A"
+// true
+"a" > "Z"
+// true
+```
+
+事实上，这种比较是基于Unicode标准。这个标准为每一个字符（包括了其他语言，如希腊语，阿拉伯语等）都指定了一个数字。由此使得计算机储存字符信息成为可能。
+
+类似的比较操作符还有：
+
++ 大于等于：`>=`
++ 小于等于：`<=`
++ 等于：`==`
++ 不等于：`!=`
+
+在JavaScript中，只有一个值**不等于它本身**，那就是`NaN`
+
+``` javascript
+NaN == NaN
+// false
+```
+
+由于NaN表示无意义的计算结果，所以它无法和其他无意义的计算结果相等。
+
+### Logical Operators
+
+另一种生成布尔值的方法就是使用逻辑比较符，前三种分别是：
+
++ 和：`&&`
++ 并：`||`
++ 非：`!`
+
+第四种逻辑操作符比较有意思，叫三元操作符（ternary operator）：
+
+`[Boolean] ? [value] :  [value]`
+
+这也被称作条件操作符（conditional operator），它将根据问号前的布尔值来选择冒号左右的值。
+
+``` javascript
+true ? "hehe" : "meme"
+// "hehe"
+false ? "hehe" : "meme"
+// "meme"
+```
+
+# Undefined Values
+
+未定义类型包含了两个特别的值：`null`和`undefined`，被用来表示*缺失有意义的值*。未定义类型不包含任何信息。
+
+在许多操作结束后，由于没有产生有意义的值，所以结果会以`undefined`来代替。这样做仅仅是因为这些操作必须有一个值而已……
+
+为方便理解，`undefined`和`null`在大多数情况下可以被视作同义词。
+
+### Automatic Type Conversion
+
+之前曾提到过，由于JavaScript具有高度灵活的语言机制，基本上它可以接受并运行你给出的任何代码，甚至是那种看起来奇奇怪怪的。看看Marijn给的例子：
+
+``` JavaScript
+console.log(8 * null)
+// → 0
+console.log("5" - 1)
+// → 4
+console.log("5" + 1)
+// → 51
+console.log("five" * 2)
+// → NaN
+console.log(false == 0)
+// → true
+```
+
+当操作符应用在“错误”的数据类型上时，JavaScript会默默地进行数据类型的转化。而它的转化规则却通常是我们不喜欢的……这个过程被称之为类型转换（type coercion）。具体的转化规则其实在《JavaScript权威指南》上讲得比较清楚。
+
+所以我们该如何避免这种烦人的类型转换发生呢？
+
+那就是用`===`代替`==`，`===`符号不仅会检查**值是否相等**，也会检查**数据类型是否一致**。
+
+#### Short-circuiting of Logical Operators
+
+`&&`和`||`逻辑操作符在处理不同类型的值时用的转换方法比较迷离。
+
+`&&`会将左边的值转化为布尔型，若为`false`,那将返回左边的值；若为`true`，那将返回右边的值。
+
+`||`同样是将左边的值转化为布尔型，若为`true`，将返回左边的值；若为`false`，将返回右边的值。
+
+根据这两位的谜之转换方法，我们就能使用一个被称作**短路评估(short-circuit evaluation)**的技术。
+
+在`true || X`中，无论X如何毁天灭地，JavaScript都不会在乎，它总是返回true。
+
+同样，在'false && X'中，无论X如何破碎星辰，JavaScript也都无视，它总是返回false。
+
+这点也同样适用于三元操作符，JavaScript将无视那个被抛弃的可怜孩子……
+
+## Chapter 3 - Program Structure
+
