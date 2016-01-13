@@ -1,4 +1,4 @@
-> Written with [StackEdit]（https://stackedit.io/）.
+> Written with [StackEdit](https://stackedit.io/).
 
 ## Chapter 1 - Introduction
 
