@@ -6,7 +6,7 @@ My front-end books reading notes.
 
 + Eloquent JavaScript
 
-  ![progress](http://progressed.io/bar/10?title=completed)
+  ![progress](http://progressed.io/bar/14?title=completed)
 
 ## Acknowledgement
 
