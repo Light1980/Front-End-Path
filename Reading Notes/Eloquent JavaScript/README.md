@@ -10,13 +10,13 @@
 
 Javascript就是这样一门计算机语言。
 
-在走入这门语言之前，Marijn已经提醒到：编程真是件很困难的事，尽管它的基本原理通常是简单直白的。编程要求你能把所知所学的碎片内容都联系在一块，形成一个复杂融洽整体。
+在走入这门语言之前，Marijn已经提醒到：编程真是件很困难的事，尽管它的基本原理通常是简单直白的。编程要求你能把所知所学的碎片内容都联系在一块，形成一个融洽的整体。
 
 所以初学者可能常常会迷失在这片无常的海洋里，感到一切都那么复杂又支离。或许怀疑自我，或许心灰意冷。
 
 无甚他法，唯独**不要放弃**。歇息一会儿，重新阅读材料，确保自己完全理解之前所学，接着再从头来过。学习是件艰难的事，但你学会的任何东西都是自己的，也都将让你接下来的路变得容易一些。
 
-> 子曰:不愤不启;不悱不发 ;举一偶而不以三偶反;则不复也 
+> 子曰：不愤不启，不悱不发 ；举一隅不以三隅反，则不复也。
 
 程序可以指代很多东西：一段代码、一块数据、或一种驱使电脑工作的力量。
 
@@ -32,7 +32,7 @@ Javascript就是这样一门计算机语言。
 
 最后，Marijn谈到他为什么选用JavaScript来教授编程。是的，尽管JavaScript显得变化多端，让人讨厌（比如它的弱类型和异常多的浏览器兼容性问题）。但在另一方面，JavaScript却也因这些问题成就了它自己。
 
-它是一门**自由而广泛的语言**（原文里自由指的是flexibility）。
+它是一门**自由而普适的语言**（原文里自由指的是flexibility）。
 
 对初学者来说，它是宽容近迂的；而它高度灵活的语言机制则可以让我们实现许多其他严格语言无法实现的技术。
 
@@ -233,7 +233,7 @@ false ? "hehe" : "meme"
 // "meme"
 ```
 
-# Undefined Values
+### Undefined Values
 
 未定义类型包含了两个特别的值：`null`和`undefined`，被用来表示*缺失有意义的值*。未定义类型不包含任何信息。
 
@@ -241,9 +241,9 @@ false ? "hehe" : "meme"
 
 为方便理解，`undefined`和`null`在大多数情况下可以被视作同义词。
 
-### Automatic Type Conversion
+#### Automatic Type Conversion
 
-之前曾提到过，由于JavaScript具有高度灵活的语言机制，基本上它可以接受并运行你给出的任何代码，甚至是那种看起来奇奇怪怪的。看看Marijn给的例子：
+之前曾提到过，由于JavaScript具有高度灵活的语言机制，基本上它可以接受并运行你给出的任何代码，甚至是那种看起来奇奇怪怪的。来看看Marijn给的例子：
 
 ``` JavaScript
 console.log(8 * null)
@@ -276,9 +276,428 @@ console.log(false == 0)
 
 在`true || X`中，无论X如何毁天灭地，JavaScript都不会在乎，它总是返回true。
 
-同样，在'false && X'中，无论X如何破碎星辰，JavaScript也都无视，它总是返回false。
+同样，在`false && X`中，无论X如何破碎星辰，JavaScript也都无视，它总是返回false。
 
 这点也同样适用于三元操作符，JavaScript将无视那个被抛弃的可怜孩子……
 
 ## Chapter 3 - Program Structure
 
+这章我们终于要来写点真正的小程序了。
+
+### Expressions and statements
+
+我们将一段能创造值的代码片段称为**表达式（expression）**。一个直接写出的值（类似于`11``,"xixi"`）即是表达式的一种。
+
+通过操作符产生的值依然是表达式。这样的做法显现了程序语言*优雅*的一面：我们可以通过组合不同的表达式来表示出任意复杂度的计算。
+
+如果说表达式可以比做人类句子中的成分，那**语句（statement）**即代表了完整的句子。程序其实可以说就是句子的集合。
+
+最简单的语句可以仅仅是一个**以分号做结尾**的表达式：
+
+``` javascript
+110;
+```
+
+但这样简单的语句的确一没什么意义。我们需要语句的**根本原因**，是在于它能对整个程序产生切实影响（side effects）。譬如，改变程序某处的状态以对后续语句造成影响。而简单的表达式，不过是创造出了一个在诞生之后便泯灭于虚空的值罢了。
+
+在某些情况下，JavaScript允许我们在语句结束后不使用分号做结尾。但此间的规则挺有些复杂（权威指南中有提），所以就目前来说，适宜的方式还是在一段语句结束后**手动添加`;`**。
+
+### Variables
+
+我们通过操作符来从旧值中生成新值，但却无法保留它们。所以，如何“挽留”住一些创生后即可能泯灭的值？
+
+JavaScript使用了**变量（variables）**来勾连和保存值。
+
+``` javascript
+var love = "broken heart";
+```
+
+关键词（keyword）`var`表明我们要在接下来的语句中定义一个变量，紧随其后的则是这个变量的名字。
+
+``` javascript
+var love
+```
+变量命名的规则：
+
++ 不能以**数字**开头
++ 不能使用除`$`和`_`之外的符号
+
+如果想**立即**给这个变量赋值，那么就接着使用`=`操作符和一个表达式。
+
+``` javascript
+var love = "forever"
+```
+
+变量被赋值以后，并不意味它就固定了，我们随时可以用`=`操作符来改变它连接的值。
+
+``` javascript
+var love = "forever"
+console.log(love)
+// "forever"
+var love = "nevermore"
+console.log(love)
+// "nevermore"
+```
+
+我们应该把变量比作一只**章鱼**，而非**盒子**。**它并不包含值，而是抓住值**——两个变量可以指向同一个值。
+
+程序只能使用它**保存过的值**。所以如果我们想保存一个值，那就“长出一只触手”去抓住它，或是让已有的“某只触手”改变目标。
+
+一个没有被赋值的变量被称为*空变量*，其默认值为`undefined`。
+
+我们可以一次性定义多个变量，使用`,`隔开即可。
+
+``` javascript
+var love = "forever", hurt = "without you"
+```
+
+### Keywords and Reserved Words
+
+关键字和保留字都是禁止用来作变量名的，它们在JavaScript中有着特殊含义(关键字)或留作日后版本的JavaScript使用(保留字)。
+
+> break case catch class const continue debugger
+default delete do else enum export extends false
+finally for function if implements import in
+instanceof interface let new null package private
+protected public return static super switch this
+throw true try typeof var void while with yield
+
+这时候不得不说，有了IDE，什么都不怕……
+
+### The environment
+
+在某个给定时间内存在的变量与它们值的集合被称为**环境(environment)**。当创建新程序时，初始环境并非是空的。它总是包含了一些语言标准要求的起始变量以及一些提供和周围系统进行交互渠道的变量。譬如：
+
+在浏览器中，有一些变量会负责监视和影响已经加载好的页面，并读取鼠标和键盘的输入。
+
+### Functions
+
+在初始环境中被预置的值大多是**函数类型**。函数是一段被包裹进值里面的小程序。这些值可以被**执行(apply)**以激活这段程序。譬如`alert`变量，它所包裹函数的功能是显示一条对话框:
+
+``` javascript
+alert("love you!");
+// 在浏览器中出现一个包含"love you!"文本的对话框
+```
+
+执行一个函数的行为可以被称为*Invoking(祈唤)，calling(调用)或applying(应用)*。
+
+我们通过在一个可以通过**在某个创建函数类型值的表达式后添加`()`**的方式来执行一个函数。
+
+`()`中的值会被传递进函数所包裹的程序中，这就是所谓的**参数(parameters)**。`alert`函数只需要一个任意类型的参数。但其他函数可能需要多个参数，参数的类型也可能不尽相同。
+
+### The console.log function
+
+虽然`aleart`函数作为一个呈现输出结果的端口时比较有用，但这种弹框方式的确让人感到恼火。所以我们通常使用`console.log`函数，它可以将其参数传递给一些文本输出设备。在浏览器中，这个设备被称为**控制台(console)**。如何打开浏览器的控制台？……
+
+``` javascript
+var love = "forever"
+console.log("love you", love)
+// love you forever
+```
+
+我们在这里发现了一个有趣的问题：变量名不是不可以包含`.`吗？所以这里的`.`别有意涵，`console.log`表达式的真正含义是：
+
+返还console变量所指代值里的log属性。
+
+第四章里Marijn会详细介绍这部分内容。
+
+### Return values
+
+类似于`alert`和`console.log`的函数会对程序造成切实影响(side effect)，但并不是所有函数都是如此。
+
+有些函数被执行后将产生一个值，这时它们的作用就类似于一个**表达式**，譬如取最大值函数`Math.max`：
+
+``` javascript
+console.log(Math.max(2, 4));
+// 4
+```
+
+函数运行后产生值的过程被称作**返回值(return values)**。回顾一下，**在JavaScript中任何一个创生值的东西都被称作表达式**。这意味着返回值的函数可以被用来与其他表达式进行组合，包裹在一段更长的表达式中。
+
+``` javcascript
+console.log(Math.min(2, 3) + 5);
+// 7
+```
+
+### Prompt and Confirm
+
+除了`alert`函数，浏览器还提供了其他一些会激活提示框的函数。
+
++ `prompt`函数
++ `confirm`函数
+
+这两种函数都已经比较少用了，大部分原因在于我们无法良好地控制提示框的最终样式。
+
+用来玩玩小程序还是不错的（狗日的整蛊弹框链接……）。
+
+### Control Flow
+
+一般来说，程序执行语句的顺序是自上而下线性的。可以用简单的直线箭头表示。示例：
+
+``` javascript
+var the_year = Number(prompt("How long do you have fell in love with her/him?","..."))
+alert("I got it. It is " + the_year + ", right?")
+```
+
+`Number`函数的功能是将参数的类型转化为数值，类似的函数还有`Boolean`或者`String()`。
+
+![Straight line](http://eloquentjavascript.net/img/controlflow-straight.svg)
+
+### Conditional Execution
+
+条件执行是除直线流外的另一种程序运行方式。程序将基于条件中表达式的布尔值来选择运行那一条程序。
+
+![conditional Execution](http://eloquentjavascript.net/img/controlflow-if.svg)
+
+JavaScript使用`if`关键词来创建条件执行，在最简单的情况下，我们可能只想让程序在满足一个也是唯一一个条件时执行语句，看看Marijn的例子：
+
+``` javascript
+var theNumber = Number(prompt("Pick a number", ""));
+//只有输入可以被转化为数值时才进行平方操作
+if (!isNaN(theNumber))
+  alert("Your number is the square root of " + theNumber * theNumber);
+```
+
+我们当然不会时时刻刻只想有一个备胎供程序选择，备胎代代无穷已，不是吗？所以下列的条件结构就很自然了：
+
+``` javascript 
+var hehe = Number(promt("Write your favorite numer", "0"))
+
+var hehe = Number(prompt("Write your favorite numer", "0"));
+
+if (hehe < 10)
+	alert("xixi");
+else if (hehe < 100)
+	alert("meme");
+else
+	alert("memeda");
+```
+
+#### While and Do Loops
+
+试想我们需要输出12以内的所有偶数，我们需要怎么办？显然，一个一个`console.log()`并不是好办法。我们写程序的目的不就是为了**do less**么？
+
+这时候，就需要**循环结构(loop)**登场了。
+
+![loop](http://eloquentjavascript.net/img/controlflow-loop.svg)
+
+JavaScript通过关键词`while`调用循环，它的格式为：
+
+``` javascript
+while (control) {
+
+}
+```
+
+还是Marijn的例子：
+
+``` javascript
+var number = 0;
+while (number <= 12) {
+  console.log(number);
+  number = number + 2;
+}
+// 0
+// 2
+// … etcetera
+```
+
+只要小括号中的表达式值为`true`，`while`循环将会反复执行大括号内的语句。
+
+大括号包裹我们所想要执行的语句。它的作用类似于小括号与表达式的关系（小括号可以将数条表达式包裹起来形成一条语句）：一系列语句被包裹在大括号中，形成一个**区块(block)**。
+
+Marijn出于**简洁性(brevity)**的考虑，在书写单语句的循环和条件结构时都不使用大括号。而通常，我们会出于一致性和省事的想法，对这些结构里的语句都用上大括号。
+
+在示例中，`number`变量起到跟踪器的作用。每轮循环结束时，它都会增加2，并在新循环开始前与条件进行比较，从而控制程序循环的次数。
+
+Marijn给出了另一个计算2^10的循环程序例子：
+
+``` javascript
+var result = 1;
+var counter = 0;
+while (counter < 10) {
+  result = result * 2;
+  counter = counter + 1;
+}
+console.log(result);
+// → 1024
+```
+
+我们同样可以使用1作为跟踪变量的起始值，但Marijn会在第四章里解释为什们咱们应习惯从0开始。
+
+`do`循环和`while`循环的作用是类似的。它们唯一的区别是`do`循环会至少执行区块中的语句一次，然后在下一轮循环开始前才会和循环条件进行比较。
+
+Marijn的例子：
+
+``` javascript
+do {
+  var yourName = prompt("Who are you?");
+} while (!yourName);
+console.log(yourName);``````
+```
+
+在此例中，`!`操作符会在求反操作前强制将字符串转化成布尔值。而只有非`''`的字符串会被转换为`true`值。所以这个程序的含义就是：除非你输入了任何字符，它将反复地要求你写点东西。
+
+### Indenting Code
+
+在示例程序中，我们应该已经留意了一些字符缩进现象。在JavaScript中，这其实不是必须的，甚至分句断行都是可选的。如果乐意，我们可以在一行里书写所有代码。但在复杂的程序里，对不同区块的代码进行合理缩进会为我们提供一个良好的可视形象。这和没人喜欢在垃圾堆里工作是一个道理。
+
+### for loops
+
+回顾下`while`循环：首先，创建一个计数变量；然后是while循环，在循环条件中进行比对计数变量和条件的比较；最后，在循环区块最后改变计数变量的值。
+
+由于它的应用实在是太普遍了，所以JavaScript提供了一个优化版的循环结构，那就是`for`循环：
+
+``` javascript
+for (track;control;update) {
+
+}
+```
+Marijn的例子：
+
+``` javascript
+for (var number = 0; number <= 12; number = number + 2)
+  console.log(number);
+// → 0
+// → 2
+//   … etcetera
+```
+
+`for`关键字后的小括号里必须包含三个部分，用分号隔开。第一部分的作用是初始化计数变量，第二部分的作用是创建循环条件，第三部分的作用是设置每次循环结束后更新计数变量值的方式。
+
+Marijn给出了`for`循环实现计算2^10值的方式：
+
+``` javascript
+var result = 1;
+for (var counter = 0; counter < 10; counter = counter + 1)
+  result = result * 2;
+console.log(result);
+// → 1024
+
+// 注意！虽然Marijn没用大括号包裹for循环区块，他至少还是用了缩进的方式来表达`result = result * 2;`从属于`for`循环。
+```
+
+### Breaking Out of a Loop
+
+让循环条件表达式产生的值为`false`可不是唯一让我们退出循环的方式。我们还可以使用'break'来强制中断循环。
+
+``` javascript
+for (var love = 0; ; love++) {
+	if (love > 23) 
+		break;
+	console.log("love is worth " + love);
+}
+```
+
+如果木有`break`，我们的这个`for`循环将会变成一个**无限循环(infinite loop)**，程序将会执行到本宇宙时间的尽头之后……嗯，其实一般是以浏览器崩溃作为结束。
+
+`continue`的作用和`break`有些类似，当它在区块中被执行时，会跳过本次循环之后的语句，进入新一轮循环。
+
+### Updating variables succinctly
+
+在循环中，我们经常需要更新一些变量的值。
+
+二笔青年：
+
+``` javascript
+trackPlus = trackPlus + 1
+trackMinus = trackMinus - 1
+```
+
+普通青年：
+
+``` javascript
+trackPlus += 1
+trackMinus -= 1
+```
+
+文艺青年：
+
+``` javascript
+trackPlus++
+trackMinus--
+```
+
+### Dispatching on a value with switch
+
+我们会经常遇到Marijn提到的如此代码形状：
+
+``` javascript
+if (variable == "value1") action1();
+else if (variable == "value2") action2();
+else if (variable == "value3") action3();
+else defaultAction();
+```
+
+对此，我们可以用`switch`结构来更直观的构建。但JavaScript继承来的`switch`结构比C/JAVA要傻嗨多了（作者强力吐槽）……
+
+``` javascript
+switch (prompt("What is the weather like?")) {
+  case "rainy":
+    console.log("Remember to bring an umbrella.");
+    break;
+  case "sunny":
+    console.log("Dress lightly.");
+  case "cloudy":
+    console.log("Go outside.");
+    break;
+  default:
+    console.log("Unknown weather type!");
+    break;
+}
+
+```
+
+注意"sunny"那里并没有`break`。在'switch'结构中，语句只会在遇到break时才会停止执行。这让我们的条件可以共享一些语句（晴天既适合外出又适合穿轻薄些），但也可能制造出一些我们不想有的意外……
+
+### Capitalization
+
+命名变量还是挺有点技术含量的，以下是比较常见的变量命名方式
+
+1. fuzzylittleturtle
+2. fuzzy_little_turtle
+3. FuzzyLittleTurtle
+4. fuzzyLittleTurtle
+
+Marijn推荐2，而4是常见的驼峰命名法，也有很多人喜欢。其他的就比较蠢蠢了。
+
+有时候我们也会遇到变量首字母大写的情况，比如`Number`。此时JavaScript会将其视为一个**构造函数(contruct)**，具体会在第六章说。
+
+### Comments
+
+程序的注释一般用来抒发潜藏的诗意情感……偶尔用来让自己的代码更清晰明了，或解释某些复杂区域的作用方式。
+
+JavaScript有两种注释方式：
+
++ 单行注释
+
+``` javascript
+var xxx = 'love'
+`// I love xxx`
+```
+
++ 多行注释
+
+``` javascript
+/* 
+	I love xxx
+		but
+			never more.
+*/
+
+console.log('I love &nbsp;')
+```
+
+### Summary
+
+程序是建立在语句之上的。有时候语句中会包含更多的语句。此外，语句中也经常会有表达式，而一个表达式也可能会由其他表达式组合而成。
+
+一般来说，程序的执行是自上而下线性的。但我们可以用**条件结构(if, else, switch)**和**循环结构(while, do, for)**来改变程序的执行顺序。
+
+变量可以为数据命名，也有助于我们记录程序状态的变化。环境是已定义变量的集合，JavaScript总是会在初始时创建一些符合标准的有用变量。
+
+函数是一类用来**封装(encapsulate)**小段程序的值。调用函数被看做是表达式，但只是有可能会产生值。
+
+### Excercise
+
+和Marign的一对比，我的好蠢……
