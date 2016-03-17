@@ -1,6 +1,7 @@
 > Written with [StackEdit](https://stackedit.io/).
 
-## Chapter 1 - Introduction
+[toc]
+## Chapter 0 - Introduction
 
 我们有两种方式来与外部沟通，一是通过我们的感官，二则是通过计算机。
 
@@ -42,7 +43,7 @@ Javascript就是这样一门计算机语言。
 
 所以，欢迎来到编程世界。
 
-## Chapter 2 - Values, Types, and Operators
+## Chapter 1 - Values, Types, and Operators
  
 实际上，一切数据最基础的单位都是比特。比特由二进制表示，只能取0或1。
 
@@ -280,7 +281,7 @@ console.log(false == 0)
 
 这点也同样适用于三元操作符，JavaScript将无视那个被抛弃的可怜孩子……
 
-## Chapter 3 - Program Structure
+## Chapter 2 - Program Structure
 
 这章我们终于要来写点真正的小程序了。
 
@@ -701,3 +702,303 @@ console.log('I love &nbsp;')
 ### Excercise
 
 和Marign的一对比，我的好蠢……
+
+## Chapter 3 - Fucntions
+
+函数是JavaScript语言的润滑剂。将小段程序包裹进一个值的概念大有用武之地：构建更大型程序、减少重复、为不同子程序命名并将它们分隔开。
+
+其中最有用的能力大概就是创造新的词语吧。成人的日常字典有20000个词语，而大概不会有哪门程序语言会内建有20000条默认命令。所以，借助函数，我们可以手动来定义一些新词语，拜托重复性的工作。
+
+### Defining a function
+
+定义一个函数的方式很简单，将一个类型为函数的值勾连到一个变量上即可。
+
+Marijn的例子：
+
+``` javascript
+var square = function(x) {
+  return x * x;
+};
+
+console.log(square(12));
+// → 144
+```
+
+使用`function`关键字创建一个函数。一个函数中包含了**参数(parameters)**和在调用时被执行的**主体(body)**。就算只有一条语句，主体也必须被大括号包裹，这点和之前的结构有所不同。
+
+函数的参数数量是任意的，看看marijn的例子：
+
+``` javascript
+var makeNoise = function() {
+  console.log("Pling!");
+};
+
+makeNoise();
+// → Pling!
+
+var power = function(base, exponent) {
+  var result = 1;
+  for (var count = 0; count < exponent; count++)
+    result *= base;
+  return result;
+};
+
+console.log(power(2, 10));
+// → 1024
+```
+一些函数可以产生新值。我们使用`return`语句来决定这个值是什么。当读取到`return`语句时，函数会直接结束，然后返还return后的值。如果值为空，那就返还`undefined`。
+
+### Parameters and scopes
+
+参数的行为和变量很类似。但参数值是由函数的调用者(caller)决定的，而不是由函数自己决定。
+
+**作用域(scope)**是一个比较重要的概念。函数的**参数**及其内部**使用`var`定义的变量**，被称作为本地的(local)。即意是它们只能在函数内部被读取调用，多个相同函数的本地变量是互不干扰的。
+
+在函数之外定义的变量被称作全局的(global)，这指的是它们在整个程序里都是可见的，可以被任意函数访问（只要函数内部没有定义同名变量）。
+
+Marijn给的一个简单示例：
+
+``` javascript
+var x = "outside";
+
+var f1 = function() {
+  var x = "inside f1";
+};
+f1();
+console.log(x);
+// → outside
+
+var f2 = function() {
+  x = "inside f2";
+};
+f2();
+console.log(x);
+// → inside f2
+```
+
+本地作用域这种有趣的特性避免了函数间可能产生的意外交互。试想如果所有变量都是全局的，那我们恐怕就很容易一失足成千古恨了。
+
+### Nested scope
+
+当然，作用域的内容可不仅仅本地和全局这么简单，因为函数内也还能嵌套函数，由此可以创造多个不同层级的作用域。
+
+看看Marijn的例子：
+
+``` javascript
+var landscape = function() {
+  var result = "";
+  var flat = function(size) {
+    for (var count = 0; count < size; count++)
+      result += "_";
+  };
+  var mountain = function(size) {
+    result += "/";
+    for (var count = 0; count < size; count++)
+      result += "'";
+    result += "\\";
+  };
+
+  flat(3);
+  mountain(4);
+  flat(6);
+  mountain(1);
+  flat(1);
+  return result;
+};
+
+console.log(landscape());
+// → ___/''''\______/'\_
+```
+
+`flat`和`mountain`函数可以读取到`landscape`函数内的`result`变量，因为它们位于定义`result`变量的函数下一层。但它们互相间不能读取`count`变量，答案很显然，它们的作用域是平行的。此外，`landscape`外部的环境不能读取到其内部的一切变量。
+
+简言之，**每一层本地作用域可以读取到全部在其上层的作用域**。变量是否可见取决于其在程序中的位置，这被称作静态作用域(lexical scoping)。
+
+在JavaScript中，**唯有函数可以创造一层新作用域**，类似于使用括号创造新区块的方式是没用的。
+
+``` javascript
+var something = 1;
+{
+  var something = 2;
+  // Do stuff with variable something...
+}
+// Outside of the block again...
+```
+
+Marijn用这个示例告诉我们，被大括号包裹的`something`变量依然指代外部的那个变量。
+
+下个版本的JavaScript将会引入`key`关键字来解决这个问题。
+
+### Functions as values
+
+乍看下，函数变量的作用似乎仅仅是用来命名一段程序。这让我们很容易将函数值和它的名字搞混淆。
+
+但这二者显然是不同的。函数值可以做和其他类型值一样的事：将之用于表达式而非直接调用它；将之储存到其他地方；将之作为参数传入到其他函数中……一个勾连了函数值的变量仍然是个正常的变量，它同样还能被指派去关联其他值。
+
+Marijn的例子：
+
+``` javascript
+var launchMissiles = function(value) {
+  missileSystem.launch("now");
+};
+if (safeMode)
+  launchMissiles = function(value) {/* do nothing */};
+```
+
+第五章会细说如何将函数值传入到其他函数中。
+
+### Declaration notation
+
+另一种定义函数的简单表示方法如下：
+
+``` javascript
+function meme() {
+	return 'xixi'
+}
+```
+
+看起来好像和之前差不多，不过确实有一个非常微妙的区别。将这种函数定义方式应用在**条件或循环结构**中时，不同的平台会有着不同的处理方式，以至于最近的标准已经明确ban掉了。
+
+Marijn例子：
+
+``` javascript
+function example() {
+  function a() {} // Okay
+  if (something) {
+    function b() {} // Danger!
+  }
+}
+```
+如果想确保程序能正确运行，那么就只在函数或程序的外层区块中使用这种方式。
+
+此外，我们再看看这段Marijn的代码：
+
+``` javascript
+console.log("The future says:", future());
+
+function future() {
+  return "We STILL have no flying cars.";
+}
+```
+
+函数定义脱离了正常程序的从上至下执行流程。它们会在概念上移动到所属作用域的最顶部，这样可以让作用域的所有代码能使用它。爽歪歪。。。
+
+
+### The call stack
+
+深入看看函数的控制流，Marijn例子：
+
+``` javascript
+function greet(who) {
+  console.log("Hello " + who);
+}
+greet("Harry");
+console.log("Bye");
+```
+
+这个流程近似于：
+
+```
+top
+   greet
+        console.log
+   greet
+top
+   console.log
+top
+```
+
+由于**函数会在结束时跳转回到调用它的位置，所以计算机必须记住函数是在哪（上下文context）被调用的**。第一个`console.log`函数跳转回了`greet`函数，第二个`console.log`函数跳转回了程序底部。
+
+计算机储存上下文的地方被称为**调用栈(call stack)**。每当一个函数被调用时，调用栈最顶部就会储存上一个上下文，当函数结束返还时，这个上下文就会从栈上被移除，并用之来让程序继续执行。
+
+栈的使用将会占据物理储存空间。所以如果栈变得过大时，将可能出现"out of stack space"、"too much recursion"等提示。
+
+Marijn给了一个玄学例子：
+
+``` javascript
+function chicken() {
+  return egg();
+}
+function egg() {
+  return chicken();
+}
+console.log(chicken() + " came first.");
+// → ??
+```
+
+### Optional Arguments
+
+JavaScript的机制允许函数在调用时被输入任意数量的参数。多余的参数会被无视，而如果参数不够的话则空缺的参数值会被`undefined`替代。
+
+从好的方面说，JavaScript让我们的函数可以拥有可选参数值。
+
+Marijn例子：
+
+``` javascript
+function power(base, exponent) {
+  if (exponent == undefined)
+    exponent = 2;
+  var result = 1;
+  for (var count = 0; count < exponent; count++)
+    result *= base;
+  return result;
+}
+
+console.log(power(4));
+// → 16
+console.log(power(4, 3));
+// → 64
+```
+
+第四章将会讲解如何在函数内获取完整参数列表，这种操作将使得函数接受任意数量的参数成为可能，譬如Marijn所说：
+
+``` javascript
+console.log("R", 2, "D", 2);
+// → R 2 D 2
+```
+
+### Closure
+
+在JavaScript中，函数每次被调用都将重新创造本地变量。这给我们留出了一个问题：当函数执行结束后，如果我们想保留这个本地变量，需要怎么做？
+
+Marijn给出了一个例子：
+
+``` javascript
+function wrapValue(n) {
+  var localVariable = n;
+  return function() { return localVariable; };
+}
+
+var wrap1 = wrapValue(1);
+var wrap2 = wrapValue(2);
+console.log(wrap1());
+// → 1
+console.log(wrap2());
+// → 2
+```
+
+`warpValue`函数首先定义了一个本地变量`localVariable`，然后返回一个返还`localVariable`变量的函数。
+
+从`wrap1`和`wrap2`上看，我们成功地保留住了宝贵的本地变量（同时也证明了一个函数每次都调用都将会创造新的本地变量，不同调用产生的同名本地变量不会相互干扰）。
+
+这种能够引用函数内部本地变量某个具体值的特性被称作**闭包(closure)**。一个封装了一些本地变量的函数被称作一个闭包- -除了妈妈不用再担心我没法保存函数内本地变量之外，我们还可以用闭包做很多有意思的事。
+
+比如Marijn的这个无聊例子：
+
+``` javascript
+function multiplier(factor) {
+  return function(number) {
+    return number * factor;
+  };
+}
+
+var twice = multiplier(2);
+console.log(twice(5));
+// → 10
+```
+
+理解这样的程序行为比较困难，不过Marijn给了一个很形象的解释：把`function`关键字看做是一个冷冻仓，它的作用是暂时冻结其内部的代码，并将之打包（成为函数值）。所以当我们看到`return function(...) {...}`这样的结构时，就可以将之视为要返还一些留待稍后使用的东西。哎哟不错哦。
+
+### Recursion
+
